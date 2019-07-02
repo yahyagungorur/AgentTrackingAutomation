@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Agentdb" Class="DataClasses1DataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=localhost;Initial Catalog=Agentdb;Integrated Security=True" SettingsObjectName="AgentDB.Properties.Settings" SettingsPropertyName="AgentdbConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.[User]" Member="Users">
+    <Type Name="User">
+      <Column Name="RecId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Surname" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Email" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Username" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Password" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Phone" Type="System.String" DbType="NVarChar(11) NOT NULL" CanBeNull="false" />
+      <Column Name="StatusType" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="Seller" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="User_Seller" Member="Sellers" ThisKey="RecId" OtherKey="UserID" Type="Seller" />
+      <Association Name="User_Agent" Member="Agents" ThisKey="RecId" OtherKey="UserId" Type="Agent" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Seller" Member="Sellers">
+    <Type Name="Seller">
+      <Column Name="RecId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="AgentID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="UserID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="StatusType" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="Seller_Invoice" Member="Invoices" ThisKey="RecId" OtherKey="Seller" Type="Invoice" />
+      <Association Name="User_Seller" Member="User" ThisKey="UserID" OtherKey="RecId" Type="User" IsForeignKey="true" />
+      <Association Name="Agent_Seller" Member="Agent" ThisKey="AgentID" OtherKey="RecId" Type="Agent" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Invoice" Member="Invoices">
+    <Type Name="Invoice">
+      <Column Name="RecId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="InvoiceNumber" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CompanyName" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PostalCode" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="City" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Address" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Seller" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Date" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Association Name="Invoice_Agent" Member="Agents" ThisKey="RecId" OtherKey="InvoiceId" Type="Agent" />
+      <Association Name="Seller_Invoice" Member="Seller1" ThisKey="Seller" OtherKey="RecId" Type="Seller" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Agent" Member="Agents">
+    <Type Name="Agent">
+      <Column Name="RecId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Phone" Type="System.String" DbType="NVarChar(11) NOT NULL" CanBeNull="false" />
+      <Column Name="Address" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Email" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="StatusType" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="InvoiceId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Agent_Seller" Member="Sellers" ThisKey="RecId" OtherKey="AgentID" Type="Seller" />
+      <Association Name="Invoice_Agent" Member="Invoice" ThisKey="InvoiceId" OtherKey="RecId" Type="Invoice" IsForeignKey="true" />
+      <Association Name="User_Agent" Member="User" ThisKey="UserId" OtherKey="RecId" Type="User" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>
